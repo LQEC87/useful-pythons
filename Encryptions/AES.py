@@ -1,35 +1,14 @@
 # -*- coding: UTF-8 -*-
-"""AES(CBC Mode) Compacts
 
-You can encrypt easily!
-This package contains Easy encryption programs!
-
-Examples:
-
-  >>> from Encryption import encryption
-  >>> key = encryption.keygen()
-  >>> enc = encryption(key, data="password")
-  >>> enc.encrypter()
-  >>> enc.iv
-  b"somerandombytesobject"
-  >>> enc.ct
-  b"0encryptedbytesobject"
-
-
-"""
 from base64 import b64encode,b64decode
 from Crypto.Cipher import AES
 from Crypto.Util.Padding import pad, unpad
 from Crypto.Random import get_random_bytes
 import warnings
-
-class NoSetKeyWarning(UserWarning):
-    "not setting key warnings based by :obj:`UserWarning`"
-    def __init__(self, *args: object) -> None:
-        super().__init__(*args)
+from EncWarn import NoSetKeyWarning
 
 class encryption:
-    """Easy to encrypt data with AES system.
+    """Easy to encrypt data with AES.
 
     AESでの暗号化を簡単に行うためのラッパーです。
     クラスのメソッドを直線呼び出すことができますが、
@@ -44,21 +23,12 @@ class encryption:
     Attributes:
       aes_block_size (int) : AES fixed length.
       key_length (int) : Key length required for this module.
+
     """
     aes_block_size : int = AES.block_size #! only copy data: 16bytes
     key_length : int = AES.block_size # needed key lengths : 16bytes
 
     def __init__(self,key:bytes,iv:bytes|None=None,ct:bytes|None=None,data:bytes|None=None):
-        """Initializes the instance based on input infomations.
-
-        You should input `key` or warn :obj:`NoSetKeyWarning` and automate setkey.
-
-        Args:
-            key (bytes) : set key, Be sure to enter the key when instantiating.
-            iv (bytes) : initiation vector
-            ct (bytes) : ciphered text
-            data (bytes) : plain data
-        """
         for arg_name,arg in locals().items():
             if arg_name in ["key","iv","ct","data"] and not isinstance(arg,bytes) and arg!=None:
                 raise TypeError(f"{arg_name} is not bytes")
