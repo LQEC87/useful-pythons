@@ -32,7 +32,7 @@ def main():
     print(f"Hybrid Encryption> data:{enc4.data}")
 
     # Lot of function is here
-    tet3_3 = af.tetration(3, 3) # 3↑↑3 = 3↑3↑3 = 3^3^3
+    tet3_3 = af.Calcurations.tetration(3, 3) # 3↑↑3 = 3↑3↑3 = 3^3^3
     print(f"{af.intlog10(tet3_3)=}")
     print(f"{af.UTF8num("a")=}")
     print(f"{af.get_bytes(42)=}")
