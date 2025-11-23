@@ -238,7 +238,7 @@ class Calcurations:
         return primes
     @staticmethod
     def generateprimesby(n:int):
-        "generate prime numbers stops for `n`"
+        "generate prime numbers up to `n`"
         if n<=0:
             raise ValueError("`n` must be greater than 0")
         primes = [2]
