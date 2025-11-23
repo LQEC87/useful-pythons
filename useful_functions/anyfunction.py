@@ -222,7 +222,7 @@ class Calcurations:
                 return True    
     @staticmethod
     def generateprimesto(n:int):
-        "generate prime numbers `n`times"
+        "generate prime numbers up to `n`"
         if n<=1:
             raise ValueError("`n` must be greater than 1")
         primes = [2]
@@ -238,7 +238,7 @@ class Calcurations:
         return primes
     @staticmethod
     def generateprimesby(n:int):
-        "generate prime numbers up to `n`"
+        "generate prime numbers `n`times"
         if n<=0:
             raise ValueError("`n` must be greater than 0")
         primes = [2]
