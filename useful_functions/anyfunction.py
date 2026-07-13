@@ -199,6 +199,7 @@ class Calcurations:
                     return True
                 if n&1==0: # n の最下位ビットが0＝偶数
                     return False
+                """powの実装
                 def mp(base, power, mod):
                     result = 1
                     while power>0:
@@ -207,13 +208,14 @@ class Calcurations:
                         base = (base * base) % mod
                         power >>= 1
                     return result
+                """
                 d = n-1
                 while d&1 == 0:
                     d >>= 1
                 for _ in range(20):
                     a = _random.randint(1,n-1)
                     t = d
-                    y = mp(a,t,n)
+                    y = pow(a,t,n)
                     while t != n-1 and y != 1 and y != n-1:
                         y = (y * y) % n
                         t <<= 1
