@@ -158,8 +158,7 @@ class Calcurations:
         return n_dividee, n_divider
 
     @classmethod
-    def choice_prime(cls):
-        ps      = [2, 3, 5, 7, 11, 13, 17, 19]
+    def choice_prime(cls, ps: list[int] = [2, 3, 5, 7, 11, 13, 17, 19]):
         exps    = [0, 1, 2, 3, 4, 5]
         weighter = [2/5, 2/5, 1/10, 1/20, 1/40, 1/40]
 
