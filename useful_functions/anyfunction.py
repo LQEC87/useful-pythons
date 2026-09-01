@@ -7,9 +7,9 @@ import random as _random
 from decimal import Decimal as _Decimal
 from fractions import Fraction as _Fraction
 from enum import Enum as _Enum
-from typing import Any as _Any, Callable as _Callable, Literal as _Literal, LiteralString as _LiteralString, SupportsFloat as _SupportsFloat, Type as _Type
-from itertools import chain as _chain, count as _count
-from collections import deque as _deque
+from typing import Any as _Any, Callable as _Callable, Literal as _Literal, LiteralString as _LiteralString, SupportsFloat as _SupportsFloat
+from itertools import chain as _chain
+from collections import Counter as _Counter, deque as _deque
 
 from uuid import getnode as _getnode
 from socket import gethostname as _gethostname, gethostbyname as _gethostbyname
@@ -74,6 +74,99 @@ class Calcurations:
         with _catch_warnings(action="always",category=ResourceWarning): # ResourceWarning is set default to "ignore"
             _warn("This function creates huge recursion.", ResourceWarning)
         return cls.ackermann(m-1, cls.ackermann(m, n-1))
+
+    @classmethod
+    def prime_factor(cls, n: int):
+        "disassemble to prime factors"
+        ps = [2, 3, 5, 7, 11, 13, 17, 19]
+        for i in range(24, int(cls.f_root(_Fraction(n)))+12, 6):
+            for t in [i-1, i+1]:
+                for p in ps:
+                    if t%p==0:
+                        break
+                    if p*p>t:
+                        ps.append(int(t))
+                        break
+                else:
+                    ps.append(int(t))
+        k = n
+        pf = list()
+        for p in ps:
+            if k%p==0:
+                while k%p==0:
+                    pf.append(int(p))
+                    k /= p
+            if p*p>k:
+                if k!=1:
+                    pf.append(int(k))
+                break
+        return pf
+
+    @staticmethod
+    def myprod(l: list[int]):
+        "production all of int in the list"
+        ans: int = 1
+        for n in l:
+            ans *= n
+        return int(ans)
+
+    @classmethod
+    def mygcd(cls, n1: int, n2: int):
+        "Python way's greatest common divisor calc"
+        f1 = cls.prime_factor(n1)
+        f2 = cls.prime_factor(n2)
+
+        c1 = _Counter(f1)
+        c2 = _Counter(f2)
+        common = c1 & c2
+
+        common_exact = list(common.elements())
+        n_gcd: int = cls.myprod(common_exact)
+
+        return int(n_gcd)
+    @staticmethod
+    def my_Euclid_gcd(n1: int, n2: int):
+        "euclid's greatest common divisor calcuration"
+        dividee = max(n1, n2)
+        divider = min(n1, n2)
+        surplus = dividee % divider
+        while surplus != 0:
+            dividee = divider
+            divider = surplus
+            surplus = dividee % divider
+        return divider
+
+    @classmethod
+    def fraction_reducer(cls, dividee: int, divider: int):
+        "dividee / divider to compact shape"
+        n_gcd = cls.mygcd(dividee, divider)
+
+        f_dividee = cls.prime_factor(dividee)
+        f_divider = cls.prime_factor(divider)
+        f_gcd     = cls.prime_factor(n_gcd)
+
+        c_dividee = _Counter(f_dividee)
+        c_divider = _Counter(f_divider)
+        c_gcd     = _Counter(f_gcd)
+
+        l_dividee = c_dividee - c_gcd
+        l_divider = c_divider - c_gcd
+
+        n_dividee = cls.myprod(list(l_dividee.elements()))
+        n_divider = cls.myprod(list(l_divider.elements()))
+
+        return n_dividee, n_divider
+
+    @classmethod
+    def choice_prime(cls, ps: list[int] = [2, 3, 5, 7, 11, 13, 17, 19]):
+        exps    = [0, 1, 2, 3, 4, 5]
+        weighter = [2/5, 2/5, 1/10, 1/20, 1/40, 1/40]
+
+        expon = _random.choices(exps, weights=weighter, k=len(ps))
+
+        comp = cls.myprod([a**b for a,b in zip(ps, expon)])
+
+        return comp
     
     @staticmethod
     def f_root(a:_Fraction,N:int):
